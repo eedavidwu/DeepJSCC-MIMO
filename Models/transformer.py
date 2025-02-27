@@ -70,7 +70,6 @@ class Encoder2D(nn.Module):
         sample_rate = config.sample_rate
         sample_v = int(math.pow(2, sample_rate))
         #sample_rate=4,sample_v=16
-        assert config.patch_size[0] * config.patch_size[1] * config.hidden_size % (sample_v**2) == 0, "不能除尽"
         self.final_dense = nn.Linear(config.hidden_size,  tcn)
         ##linear:x hidden-> 8*8*hidden/16/16
         self.patch_size = config.patch_size
@@ -80,15 +79,8 @@ class Encoder2D(nn.Module):
     def forward(self, x,power_map):
         ## x:(b, c, w, h)
         b, c, h, w = x.shape
-        assert self.config.in_channels == c, "in_channels != 输入图像channel"
         p1 = self.patch_size[0]
         p2 = self.patch_size[1]
-        if h % p1 != 0:
-            print("请重新输入img size 参数 必须整除")
-            os._exit(0)
-        if w % p2 != 0:
-            print("请重新输入img size 参数 必须整除")
-            os._exit(0)
         hh = h // p1 
         ww = w // p2 
 
@@ -96,7 +88,7 @@ class Encoder2D(nn.Module):
 
         x_in=torch.cat((x,power_map),dim=2)
         
-        encode_x = self.bert_model(x_in)[-1] # 取出来最后一层
+        encode_x = self.bert_model(x_in)[-1] 
 
         x = self.final_dense(encode_x)
         #x_map = rearrange(x, "b (h w) (c) -> b c (h) (w)", h = hh, w = ww, c =self.tcn)
@@ -112,7 +104,7 @@ class Decoder2D_trans(nn.Module):
 
     def forward(self, x):
         ## x:(b, path_num, c)
-        encode_x = self.bert_model(x)[-1] # 取出来最后一层
+        encode_x = self.bert_model(x)[-1]
         x = self.final_dense(encode_x)        
         x_out = rearrange(x, "b (h w) (p1 p2 c) -> b c (h p1) (w p2)", p1 = 4, p2 = 4, h = 8, w = 8, c =3)
 

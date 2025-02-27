@@ -371,7 +371,6 @@ class TransModel2d(nn.Module):
         #sequence_output = encoder_layers[-1]
         
         if not output_all_encoded_layers:
-            # 如果不用输出所有encoder层
             encoder_layers = encoder_layers[-1]
         return encoder_layers
 
@@ -402,7 +401,6 @@ class ReciverModel2d(nn.Module):
         #sequence_output = encoder_layers[-1]
         
         if not output_all_encoded_layers:
-            # 如果不用输出所有encoder层
             encoder_layers = encoder_layers[-1]
         return encoder_layers
 
@@ -456,7 +454,6 @@ class Att_TransModel2d(nn.Module):
         )
         
         if not output_all_encoded_layers:
-            # 如果不用输出所有encoder层
             encoder_layers = encoder_layers[-1]
         return encoder_layers
 
@@ -487,6 +484,5 @@ class TransModel3d(nn.Module):
         sequence_output = encoder_layers[-1]
         
         if not output_all_encoded_layers:
-            # 如果不用输出所有encoder层
             encoder_layers = encoder_layers[-1]
         return encoder_layers
