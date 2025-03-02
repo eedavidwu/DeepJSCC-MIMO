@@ -25,6 +25,8 @@ python train.py
 - Training time can be optimized:  
   - Current training is slow due to **SVD decomposition**.  
   - Consider accelerating with **GPU support**.
+- If the GPU memoary is not allowed, another simple way is to train across 128x128 patches, and reconstruct image in patch-wise and then compute PSNR. (Still can match the similar SOTA performance.)
+
 
 > **Note**: The code is currently uncleaned. I will clean it and make it more user-friendly when I have time.  
 
